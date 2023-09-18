@@ -16,7 +16,7 @@ app.post('/.netlify/functions/api/contact', (req, res) => {
         res.status(200).send('Email sent successfully');
     }
     catch (err) {
-        res.status(500).send('Error sending email',errsendMailToUser);
+        res.status(500).send('Error sending email');
     }
 })
 app.listen(port,()=>{
