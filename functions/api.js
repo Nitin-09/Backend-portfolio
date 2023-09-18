@@ -12,8 +12,8 @@ app.use(cors())
 app.post('/.netlify/functions/api/contact', (req, res) => {
     const { name, email, message } = req.body;
     try {
-        sendMail(name, email, message)
-        res.status(200).send({'msg':'Email sent successfully'});
+        const fun=sendMail(name, email, message)
+        res.status(200).send({'msg':fun});
     }
     catch (err) {
         res.status(500).send({msg:'Error sending email'});
