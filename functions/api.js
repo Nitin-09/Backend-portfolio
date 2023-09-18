@@ -13,10 +13,10 @@ app.post('/.netlify/functions/api/contact', (req, res) => {
     const { name, email, message } = req.body;
     try {
         sendMail(name, email, message)
-        res.status(200).send('Email sent successfully');
+        res.status(200).send({'msg':'Email sent successfully'});
     }
     catch (err) {
-        res.status(500).send('Error sending email');
+        res.status(500).send({msg:'Error sending email'});
     }
 })
 app.listen(port,()=>{
