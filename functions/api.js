@@ -1,28 +1,25 @@
-const express = require('express')
-const sendMail = require('../MailOwner.js')
-const cors = require('cors')
-const serverless = require('serverless-http')
+const express = require('express');
+const sendMail = require('../Mail.js');
+const cors = require('cors');
+const serverless = require('serverless-http');
 
-const app = express()
-const port = 5000
+const app = express();
 
-app.use(express.json())
-app.use(cors())
 
-app.post('/.netlify/functions/api/contact',async (req, res) => {
+app.use(express.json());
+app.use(cors());
+
+app.post('/.netlify/functions/api/contact', async (req, res) => {
     const { name, email, message } = req.body;
     try {
-       let msg=await sendMail(name, email, message)
-       console.log(msg)
-        res.status(200).send({'status':"Success"});
+        let msg = await sendMail(name, email, message);
+        console.log(msg);
+        res.status(200).json({ status: 'Success', message: 'Email sent successfully.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while sending the email.' });
     }
-    catch (err) {
-        res.status(500).send({ err: err.message });
-    }
-})
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-})
+});
 
-module.exports = app
-module.exports.handler = serverless(app)
+module.exports = app;
+module.exports.handler = serverless(app);
